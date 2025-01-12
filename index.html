@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/index.css">
+    <title>Lab Tests Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 48px;
+            border: none;
+            border-radius: 50px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            font-size: 16px;
+            color: #333;
+        }
+
+        .search-input::placeholder {
+            color: #666;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .service-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            text-decoration: none;
+            color: #1a1a1a;
+        }
+
+        .icon-container {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #f8f9ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .icon-container svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .service-item p {
+            font-size: 14px;
+            line-height: 1.3;
+            color: #1f296b;
+            font-weight: 500;
+        }
+
+        .promo-banner {
+            background: #fef2f7;
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .banner-content {
+            flex: 1;
+        }
+
+        .banner-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f296b;
+            margin-bottom: 8px;
+        }
+
+        .banner-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .book-now-btn {
+            display: inline-flex;
+            align-items: center;
+            background: #e83e8c;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .banner-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .promo-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .banner-image {
+                margin-top: 16px;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #1a1a1a;
+        }
+
+        .view-all {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            border-radius: 999px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .filter-btn.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .filter-btn:not(.active) {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.3s ease;
+            padding: 10px 0;
+        }
+
+        .card {
+            min-width: 320px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+
+        .sponsored-tag {
+            background: #ef4444;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .report-time {
+            color: #2563eb;
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tests-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .tests-list {
+            list-style: none;
+        }
+
+        .tests-list li {
+            font-size: 14px;
+            color: #4b5563;
+            margin-bottom: 4px;
+        }
+
+        .includes-section h3,
+        .tests-section h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .details-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .detail-group h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .detail-group p {
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .quantity-control {
+            display: flex;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        .quantity-btn {
+            padding: 4px 12px;
+            border: none;
+            background: none;
+            color: #2563eb;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .quantity {
+            padding: 4px 12px;
+            border-left: 1px solid #e5e7eb;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prev-btn {
+            left: -20px;
+        }
+
+        .next-btn {
+            right: -20px;
+        }
+
+        .nav-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-btn {
+                display: none;
+            }
+
+            .carousel {
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .card {
+                scroll-snap-align: start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Find lab tests, diagnostics centres">
+            <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </div>
+
+        <div class="services-grid">
+            <a href="#" class="service-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#4c6fff" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                </div>
+                <p>Annual Health Check</p>
+            </a>
+
+            <a href="#" class="service-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#4c6fff" stroke-width="2">
+                        <path d="M9 3v18m0-13h6m-3-3v6"></path>
+                    </svg>
+                </div>
+                <p>Book Lab Tests</p>
+            </a>
+
+            <a href="#" class="service-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#4c6fff" stroke-width="2">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">
+                        </path>
+                    </svg>
+                </div>
+                <p>Popular Health Checks</p>
+            </a>
+
+            <a href="#" class="service-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#4c6fff" stroke-width="2">
+                        <path d="M19 4H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"></path>
+                        <path d="M9 9h6m-6 3h6m-6 3h6"></path>
+                    </svg>
+                </div>
+                <p>Find Labs / Hospitals</p>
+            </a>
+
+            <a href="#" class="service-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#4c6fff" stroke-width="2">
+                        <path d="M21 3H3v18h18V3z"></path>
+                        <path d="M3 9h18M3 15h18M12 3v18"></path>
+                    </svg>
+                </div>
+                <p>X-Rays, Scans & MRIs</p>
+            </a>
+
+            <a href="#" class="service-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#4c6fff" stroke-width="2">
+                        <path d="M21 8v13H3V8M1 3h22v5H1V3z"></path>
+                        <path d="M10 12h4"></path>
+                    </svg>
+                </div>
+                <p>Previous Orders</p>
+            </a>
+        </div>
+
+        <div class="promo-banner">
+            <div class="banner-content">
+                <h2 class="banner-title">Baby On Board?</h2>
+                <p class="banner-subtitle">Get Pregnancy Care Tests!<br>Diabetes, ANC, Ferritin, HIV/Elisa & Thyroid</p>
+                <a href="#" class="book-now-btn">BOOK NOW →</a>
+            </div>
+            <img src="/api/placeholder/240/240" alt="Pregnant woman" class="banner-image">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Featured Health Check-ups</h1>
+            <a href="#" class="view-all">View All</a>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active">Popular</button>
+            <button class="filter-btn">Center Visit</button>
+            <button class="filter-btn">Full Body Check Up</button>
+            <button class="filter-btn">Dia</button>
+        </div>
+
+        <div class="carousel-container">
+            <div class="carousel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Medibuddy Fit health check-up</h2>
+                        <span class="sponsored-tag">Sponsored</span>
+                    </div>
+                    <div class="report-time">
+                        <span>Reports in 10-12 hrs</span>
+                    </div>
+                    <div class="tests-section">
+                        <div>
+                            <h3>90 Tests</h3>
+                            <ul class="tests-list">
+                                <li>• Cholesterol - Total</li>
+                                <li>• Vitamin D... + 87 more</li>
+                            </ul>
+                        </div>
+                        <div class="includes-section">
+                            <h3>Includes</h3>
+                            <p>📊 Radiology</p>
+                        </div>
+                    </div>
+                    <div class="details-row">
+                        <div class="detail-group">
+                            <h3>Fasting</h3>
+                            <p>07-08 Hrs</p>
+                        </div>
+                        <div class="detail-group">
+                            <h3>Available</h3>
+                            <p>🏠 Home</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="price">₹ 0</span>
+                        <div class="quantity-control">
+                            <button class="quantity-btn minus">-</button>
+                            <span class="quantity">1</span>
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- More cards with the same structure -->
+                <!-- Card 2 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Complete Body Check Package</h2>
+                        <span class="sponsored-tag">Sponsored</span>
+                    </div>
+                    <div class="report-time">
+                        <span>Reports in 24 hrs</span>
+                    </div>
+                    <div class="tests-section">
+                        <div>
+                            <h3>75 Tests</h3>
+                            <ul class="tests-list">
+                                <li>• Complete Blood Count</li>
+                                <li>• Liver Function... + 72 more</li>
+                            </ul>
+                        </div>
+                        <div class="includes-section">
+                            <h3>Includes</h3>
+                            <p>🔬 Lab Tests</p>
+                        </div>
+                    </div>
+                    <div class="details-row">
+                        <div class="detail-group">
+                            <h3>Fasting</h3>
+                            <p>10-12 Hrs</p>
+                        </div>
+                        <div class="detail-group">
+                            <h3>Available</h3>
+                            <p>🏥 Center</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="price">₹ 1999</span>
+                        <div class="quantity-control">
+                            <button class="quantity-btn minus">-</button>
+                            <span class="quantity">1</span>
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Diabetes Care Package</h2>
+                        <span class="sponsored-tag">Sponsored</span>
+                    </div>
+                    <div class="report-time">
+                        <span>Reports in 8 hrs</span>
+                    </div>
+                    <div class="tests-section">
+                        <div>
+                            <h3>45 Tests</h3>
+                            <ul class="tests-list">
+                                <li>• HbA1c</li>
+                                <li>• Blood Sugar... + 42 more</li>
+                            </ul>
+                        </div>
+                        <div class="includes-section">
+                            <h3>Includes</h3>
+                            <p>💉 Diagnostic Tests</p>
+                        </div>
+                    </div>
+                    <div class="details-row">
+                        <div class="detail-group">
+                            <h3>Fasting</h3>
+                            <p>08-10 Hrs</p>
+                        </div>
+                        <div class="detail-group">
+                            <h3>Available</h3>
+                            <p>🏠 Home</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="price">₹ 1499</span>
+                        <div class="quantity-control">
+                            <button class="quantity-btn minus">-</button>
+                            <span class="quantity">1</span>
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="nav-btn prev-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <button class="nav-btn next-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const carousel = document.querySelector('.carousel');
+            const cards = document.querySelectorAll('.card');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            const cardWidth = cards[0].offsetWidth + 20; // Including gap
+            let currentIndex = 0;
+
+            function updateCarousel() {
+                carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+            }
+
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCarousel();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentIndex < cards.length - 1) {
+                    currentIndex++;
+                    updateCarousel();
+                }
+            });
+
+            // Quantity controls
+            document.querySelectorAll('.quantity-control').forEach(control => {
+                const quantity = control.querySelector('.quantity');
+                const minusBtn = control.querySelector('.minus');
+                const plusBtn = control.querySelector('.plus');
+
+                minusBtn.addEventListener('click', () => {
+                    let value = parseInt(quantity.textContent);
+                    if (value > 1) {
+                        quantity.textContent = value - 1;
+                    }
+                });
+
+                plusBtn.addEventListener('click', () => {
+                    let value = parseInt(quantity.textContent);
+                    quantity.textContent = value + 1;
+                });
+            });
+
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelector('.filter-btn.active').classList.remove('active');
+                    btn.classList.add('active');
+                });
+            });
+        });
+    </script>
+
+    <div class="container">
+        <!-- Active Bookings Section -->
+        <div class="lab_bookings_section">
+            <div class="lab_section_header">
+                <div class="lab_section_title">Your Active Bookings</div>
+                <a href="#" class="lab_view_all">View All</a>
+            </div>
+
+            <div class="lab_booking_card">
+                <div class="lab_booking_arrow">›</div>
+                <div class="lab_booking_status">
+                    <div class="lab_status_dot"></div>
+                    <div class="lab_status_text">Appointment Confirmed</div>
+                </div>
+                <div class="lab_patient_name">Mr. Suresh Gaikwad</div>
+                <div class="lab_booking_details">
+                    <div class="lab_booking_date">
+                        <div class="lab_date">03 Nov'22</div>
+                        <div class="lab_day">Wednesday</div>
+                    </div>
+                    <div class="lab_booking_time">
+                        <div class="lab_time">09:30-10:30AM</div>
+                        <div class="lab_sample_type">Home Sample Collection</div>
+                    </div>
+                    <div class="lab_tests_count">03 Lab Tests</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Popular Tests Section -->
+        <div class="lab_tests_section">
+            <div class="lab_section_header">
+                <div class="lab_section_title">Book Popular Lab Tests</div>
+                <a href="#" class="lab_view_all">View More</a>
+            </div>
+
+            <div class="lab_filter_tabs">
+                <div class="lab_filter_tab">For Amazon Employees</div>
+                <div class="lab_filter_tab">Center Visit</div>
+                <div class="lab_filter_tab">Full Body Checkup</div>
+            </div>
+
+            <div class="lab_test_list">
+                <!-- Test Card 1 -->
+                <div class="lab_test_card">
+                    <div class="lab_test_header">
+                        <div class="lab_test_title">Complete Blood Count (CBC) - EDTA Whole Blood</div>
+                        <div class="lab_cashless_tag">Cashless</div>
+                    </div>
+                    <div class="lab_hospital_tag">Raja Srigakollu</div>
+                    <div class="lab_test_info">
+                        <div class="lab_test_meta">
+                            <span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                                </svg>
+                                Reports in 10-12 hrs
+                            </span>
+                            <span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                </svg>
+                                Home
+                            </span>
+                            <span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M12 8v4M12 16h.01" />
+                                </svg>
+                                Lab
+                            </span>
+                        </div>
+                        <button class="lab_add_button">Add</button>
+                    </div>
+                    <div class="lab_test_pricing">
+                        <span class="lab_price">₹500/-</span>
+                        <span class="lab_discount">55% OFF</span>
+                        <span class="lab_original_price">₹800/-</span>
+                    </div>
+                </div>
+
+                <!-- Repeated Test Cards -->
+                <div class="lab_test_card">
+                    <!-- Similar structure repeated for other test cards -->
+                    <div class="lab_test_header">
+                        <div class="lab_test_title">Complete Blood Count (CBC) - EDTA Whole Blood</div>
+                        <div class="lab_cashless_tag">Cashless</div>
+                    </div>
+                    <div class="lab_test_info">
+                        <div class="lab_test_meta">
+                            <span>Reports in 10-12 hrs</span>
+                            <span>Home</span>
+                            <span>Lab</span>
+                        </div>
+                        <button class="lab_add_button">Add</button>
+                    </div>
+                    <div class="lab_test_pricing">
+                        <span class="lab_price">₹500/-</span>
+                        <span class="lab_discount">55% OFF</span>
+                        <span class="lab_original_price">₹800/-</span>
+                    </div>
+                </div>
+
+                <!-- More test cards can be added here -->
+            </div>
+        </div>
+    </div>
+    <!-- -->
+    <div class="lab_section">
+        <!-- Labs Carousel -->
+        <div class="lab_header">
+            <div class="lab_title">Labs Visited</div>
+            <div class="lab_see_all" onclick="showAllLabs()">See All</div>
+        </div>
+
+        <div class="lab_carousel">
+            <div class="lab_cards_container" id="labsCarousel">
+                <!-- Lab cards will be inserted here -->
+            </div>
+            <div class="lab_dots" id="labsDots"></div>
+            <button class="lab_carousel_nav lab_carousel_prev" onclick="slideLabs(-1)">←</button>
+            <button class="lab_carousel_nav lab_carousel_next" onclick="slideLabs(1)">→</button>
+        </div>
+
+        <!-- Reviews Carousel -->
+        <div class="lab_reviews">
+            <div class="lab_reviews_title">What our Users say</div>
+            <div class="lab_reviews_carousel">
+                <div id="reviewsCarousel">
+                    <!-- Review cards will be inserted here -->
+                </div>
+                <div class="lab_dots" id="reviewsDots"></div>
+                <button class="lab_carousel_nav lab_carousel_prev" onclick="slideReviews(-1)">←</button>
+                <button class="lab_carousel_nav lab_carousel_next" onclick="slideReviews(1)">→</button>
+            </div>
+        </div>
+        <div class="lab_trust_section">
+            <div class="lab_trust_header">
+                <div class="lab_trust_title">Trusted by</div>
+                <div class="lab_trust_number">20,00,000+</div>
+                <div class="lab_trust_title">Users Every month</div>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="#4caf50">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+            </div>
+            <div class="lab_trust_grid">
+                <div class="lab_trust_item">
+                    <img src="/api/placeholder/32/32" alt="Centers" class="lab_trust_icon">
+                    <div class="lab_trust_text">200+ Approved Diagnostic Centres</div>
+                </div>
+                <div class="lab_trust_item">
+                    <img src="/api/placeholder/32/32" alt="Tests" class="lab_trust_icon">
+                    <div class="lab_trust_text">1200+ Lab Tests Offered</div>
+                </div>
+                <div class="lab_trust_item">
+                    <img src="/api/placeholder/32/32" alt="Pincodes" class="lab_trust_icon">
+                    <div class="lab_trust_text">1200+ Pincodes Covered</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Modal for All Labs -->
+    <div class="lab_modal" id="allLabsModal">
+        <div class="lab_modal_content">
+            <div class="lab_modal_close" onclick="closeModal()">×</div>
+            <h2 class="lab_title">All Labs</h2>
+            <div id="allLabsList">
+                <!-- All lab cards will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="hcp_container">
+        <!-- Packages Grid -->
+        <h2 class="hcp_title">Lifestyle Health Check-up Packages</h2>
+        <div class="hcp_packages_grid">
+            <div class="hcp_package_item">
+                <svg class="hcp_package_icon" viewBox="0 0 24 24" fill="#2196f3">
+                    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" />
+                    <path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2" />
+                </svg>
+                <div class="hcp_package_name">Hyper-Tension</div>
+            </div>
+            <div class="hcp_package_item">
+                <svg class="hcp_package_icon" viewBox="0 0 24 24" fill="#2196f3">
+                    <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+                    <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="currentColor" stroke-width="2" />
+                </svg>
+                <div class="hcp_package_name">Obesity</div>
+            </div>
+            <div class="hcp_package_item">
+                <svg class="hcp_package_icon" viewBox="0 0 24 24" fill="#2196f3">
+                    <path d="M8 8a4 4 0 014-4v8l4-4" stroke="currentColor" stroke-width="2" fill="none" />
+                </svg>
+                <div class="hcp_package_name">Smoking</div>
+            </div>
+            <div class="hcp_package_item">
+                <svg class="hcp_package_icon" viewBox="0 0 24 24" fill="#2196f3">
+                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" />
+                </svg>
+                <div class="hcp_package_name">Diabetic</div>
+            </div>
+            <div class="hcp_package_item">
+                <svg class="hcp_package_icon" viewBox="0 0 24 24" fill="#2196f3">
+                    <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+                    <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="currentColor" stroke-width="2" />
+                </svg>
+                <div class="hcp_package_name">Obesity</div>
+            </div>
+            <div class="hcp_package_item">
+                <svg class="hcp_package_icon" viewBox="0 0 24 24" fill="#2196f3">
+                    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" />
+                    <path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2" />
+                </svg>
+                <div class="hcp_package_name">Hyper-Tension</div>
+            </div>
+        </div>
+
+        <!-- How it Works -->
+        <div class="hcp_how_works">
+            <h3 class="hcp_section_title">How it Works?</h3>
+            <div class="hcp_step_item">
+                <img src="/api/placeholder/40/40" alt="Search" class="hcp_step_icon">
+                <div class="hcp_step_text">
+                    Search for required Lab tests and select diagnostic lab of your choice. Add prescription, patient
+                    details and address to complete the booking.
+                </div>
+            </div>
+            <div class="hcp_step_item">
+                <img src="/api/placeholder/40/40" alt="Visit" class="hcp_step_icon">
+                <div class="hcp_step_text">
+                    Visit the lab centre or get your booking. For home sample collection, certified professional will
+                    collect the samples at your home.
+                </div>
+            </div>
+            <div class="hcp_step_item">
+                <img src="/api/placeholder/40/40" alt="Reports" class="hcp_step_icon">
+                <div class="hcp_step_text">
+                    We will email you the reports. You can also access your reports within your account on the MediBuddy
+                    App.
+                </div>
+            </div>
+        </div>
+
+        <!-- Safety Measures -->
+        <div class="hcp_safety">
+            <h3 class="hcp_section_title">100% Safe & Secure Lab Tests</h3>
+            <div class="hcp_safety_grid">
+                <div class="hcp_safety_item">
+                    <img src="/api/placeholder/40/40" alt="Diagnostic" class="hcp_safety_icon">
+                    <div class="hcp_safety_text">
+                        <span class="hcp_highlight">Govt Approved Diagnostic</span> Centres
+                    </div>
+                </div>
+                <div class="hcp_safety_item">
+                    <img src="/api/placeholder/40/40" alt="Temperature" class="hcp_safety_icon">
+                    <div class="hcp_safety_text">
+                        Temperature Check of all Technicians
+                    </div>
+                </div>
+                <div class="hcp_safety_item">
+                    <img src="/api/placeholder/40/40" alt="Mask" class="hcp_safety_icon">
+                    <div class="hcp_safety_text">
+                        Mandatory use of Mask & Sanitizers
+                    </div>
+                </div>
+                <div class="hcp_safety_item">
+                    <img src="/api/placeholder/40/40" alt="Disinfection" class="hcp_safety_icon">
+                    <div class="hcp_safety_text">
+                        Regular Disinfectation of Labs
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="lab_faq_container">
+        <h1 class="lab_faq_title">Frequently Asked Questions</h1>
+        <div class="lab_faq_list">
+            <div class="lab_faq_item">
+                <button class="lab_faq_question">
+                    Is getting lab test done, safe and secure?
+                    <svg class="lab_faq_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div class="lab_faq_answer">
+                    Lorem ipsum lorem ipsum loroto lorem ipsum Lorem ipsum lorem ipsum loroto lorem ipsum rem ipsum
+                    lorem
+                    ipsum loroto lorem ipsum lorem ipsum lorem loroto
+                </div>
+            </div>
+            <div class="lab_faq_item">
+                <button class="lab_faq_question">
+                    What is home sample collection?
+                    <svg class="lab_faq_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div class="lab_faq_answer">Content not available</div>
+            </div>
+            <div class="lab_faq_item">
+                <button class="lab_faq_question">
+                    What are the benefits of book my test online?
+                    <svg class="lab_faq_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div class="lab_faq_answer">Content not available</div>
+            </div>
+            <div class="lab_faq_item">
+                <button class="lab_faq_question">
+                    How to prepare for Lab Test/Health Checkup?
+                    <svg class="lab_faq_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div class="lab_faq_answer">Content not available</div>
+            </div>
+            <div class="lab_faq_item">
+                <button class="lab_faq_question">
+                    How to use my wallet to book Lab Test/HealthCheckup?
+                    <svg class="lab_faq_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div class="lab_faq_answer">Content not available</div>
+            </div>
+            <div class="lab_faq_item">
+                <button class="lab_faq_question">
+                    How to book my corporate sponsored HealthCheckup?
+                    <svg class="lab_faq_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div class="lab_faq_answer">Content not available</div>
+            </div>
+            <div class="lab_faq_item">
+                <button class="lab_faq_question">
+                    How to take free followup from doctor?
+                    <svg class="lab_faq_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div class="lab_faq_answer">Content not available</div>
+            </div>
+            <div class="lab_faq_item">
+                <button class="lab_faq_question">
+                    How to track my booking/order?
+                    <svg class="lab_faq_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div class="lab_faq_answer">Content not available</div>
+            </div>
+            <div class="lab_faq_item">
+                <button class="lab_faq_question">
+                    How to take free followup from doctor?
+                    <svg class="lab_faq_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div class="lab_faq_answer">Content not available</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.lab_faq_question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('.lab_faq_icon');
+
+                // Close all other answers
+                document.querySelectorAll('.lab_faq_answer').forEach(item => {
+                    if (item !== answer) {
+                        item.classList.remove('lab_active');
+                        item.previousElementSibling.querySelector('.lab_faq_icon').classList.remove('lab_active');
+                    }
+                });
+
+                // Toggle current answer
+                answer.classList.toggle('lab_active');
+                icon.classList.toggle('lab_active');
+            });
+        });
+
+        // Sample data
+        const labsData = [
+            {
+                name: "Apollo Diagnostics",
+                location: "Kormangala, Bangalore",
+                slot: "07:30 AM, Tomorrow",
+                image: "/api/placeholder/600/300"
+            },
+            {
+                name: "Thyrocare Labs",
+                location: "Indiranagar, Bangalore",
+                slot: "08:00 AM, Tomorrow",
+                image: "/api/placeholder/600/300"
+            },
+            {
+                name: "SRL Diagnostics",
+                location: "HSR Layout, Bangalore",
+                slot: "09:00 AM, Tomorrow",
+                image: "/api/placeholder/600/300"
+            }
+        ];
+
+        const reviewsData = [
+            {
+                stars: 5,
+                text: "Good and very helpful to customer as customer can book online health check up and book hospitalization as customer care...",
+                author: "Vikram Kishore Suryanarahi"
+            },
+            {
+                stars: 4,
+                text: "Excellent service and prompt response. Very professional approach to healthcare.",
+                author: "Raj Kumar"
+            },
+            {
+                stars: 5,
+                text: "Best diagnostic center with latest equipment and professional staff.",
+                author: "Priya Singh"
+            }
+        ];
+
+        let currentLabSlide = 0;
+        let currentReviewSlide = 0;
+
+        // Create lab card HTML
+        function createLabCard(lab) {
+            return `
+                <div class="lab_card">
+                    <img src="${lab.image}" alt="${lab.name}" class="lab_image">
+                    <div class="lab_name">${lab.name}</div>
+                    <div class="lab_location">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                        </svg>
+                        ${lab.location}
+                    </div>
+                    <div class="lab_slot">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                        Next Slot - ${lab.slot}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create review card HTML
+        function createReviewCard(review) {
+            return `
+                <div class="lab_review_card">
+                    <div class="lab_review_stars">${'★'.repeat(review.stars)}${'☆'.repeat(5 - review.stars)}</div>
+                    <div class="lab_review_text">${review.text}</div>
+                    <div class="lab_review_author">${review.author}</div>
+                </div>
+            `;
+        }
+
+        // Initialize carousels
+        function initCarousels() {
+            const labsCarousel = document.getElementById('labsCarousel');
+            const reviewsCarousel = document.getElementById('reviewsCarousel');
+            const labsDots = document.getElementById('labsDots');
+            const reviewsDots = document.getElementById('reviewsDots');
+
+            // Add lab cards
+            labsCarousel.innerHTML = labsData.map(lab => createLabCard(lab)).join('');
+
+            // Add lab dots
+            labsDots.innerHTML = labsData.map((_, i) =>
+                `<div class="lab_dot ${i === 0 ? 'active' : ''}" onclick="goToLabSlide(${i})"></div>`
+            ).join('');
+
+            // Add review cards
+            reviewsCarousel.innerHTML = reviewsData.map(review => createReviewCard(review)).join('');
+
+            // Add review dots
+            reviewsDots.innerHTML = reviewsData.map((_, i) =>
+                `<div class="lab_dot ${i === 0 ? 'active' : ''}" onclick="goToReviewSlide(${i})"></div>`
+            ).join('');
+        }
+
+        // Slide functions
+        function slideLabs(direction) {
+            const newSlide = currentLabSlide + direction;
+            if (newSlide >= 0 && newSlide < labsData.length) {
+                goToLabSlide(newSlide);
+            }
+        }
+
+        function slideReviews(direction) {
+            const newSlide = currentReviewSlide + direction;
+            if (newSlide >= 0 && newSlide < reviewsData.length) {
+                goToReviewSlide(newSlide);
+            }
+        }
+
+        function goToLabSlide(index) {
+            const carousel = document.getElementById('labsCarousel');
+            const dots = document.querySelectorAll('#labsDots .lab_dot');
+
+            carousel.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+            currentLabSlide = index;
+        }
+
+        function goToReviewSlide(index) {
+            const carousel = document.getElementById('reviewsCarousel');
+            const dots = document.querySelectorAll('#reviewsDots .lab_dot');
+
+            carousel.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+            currentReviewSlide = index;
+        }
+
+        // Modal functions
+        function showAllLabs() {
+            const modal = document.getElementById('allLabsModal');
+            const allLabsList = document.getElementById('allLabsList');
+
+            allLabsList.innerHTML = labsData.map(lab => createLabCard(lab)).join('');
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('allLabsModal').style.display = 'none';
+        }
+
+        // Initialize on load
+        window.onload = initCarousels;
+    </script>
+
+
+</body>
+
+</html>
